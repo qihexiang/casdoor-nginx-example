@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  # acme_sh:
+  #   image: neilpang/acme.sh
+  casdoor:
+    image: casbin/casdoor-all-in-one
+  casdoor_proxy:
+    image: nginx
+    volumes:
+    - ./nginx:/etc/nginx
+    - ./certs:/certs
+    ports:
+    - 8080:80
+    - 8443:443
+    
+  # video_server:
+  #   build: ./video_server
+  # video_db:
+  #   image: mysql:latest
+  #   environments:
+  #   - MYSQL_ROOT_PASSWORD=39jeslHEHR

@@ -3,6 +3,9 @@ version: "3"
 services:
   # acme_sh:
   #   image: neilpang/acme.sh
+  #   command: acme.sh --daemon
+  #   volumes:
+  #     - ./certs:/acme.sh
   casdoor:
     image: casbin/casdoor-all-in-one
   casdoor_proxy:
@@ -13,9 +16,19 @@ services:
     ports:
     - 8080:80
     - 8443:443
+  
+  
+  video_server:
+    build: ./video_server
+    env_file:
+    - ./video_server/.env
+    environment:
+    - NODE_EXTRA_CA_CERTS=/ca.cer
+    ports:
+    - 8081:8080
+    volumes:
+    - ./certs/tcub.site_ecc/ca.cer:/ca.cer
     
-  # video_server:
-  #   build: ./video_server
   # video_db:
   #   image: mysql:latest
   #   environments:

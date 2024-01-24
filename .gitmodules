@@ -1,0 +1,3 @@
+[submodule "video_server"]
+	path = video_server
+	url = git@github.com:FushenYang/joke_list.git

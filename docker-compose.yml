@@ -3,16 +3,29 @@ version: "3"
 services:
   # acme_sh:
   #   image: neilpang/acme.sh
-  #   command: acme.sh --daemon
+  #   command: acme.sh --cron
   #   volumes:
   #     - ./certs:/acme.sh
   casdoor:
-    image: casbin/casdoor-all-in-one
+    image: casbin/casdoor
+    volumes:
+    - ./casdoor_conf:/conf
+    depends_on:
+    - casdoor_db
+  casdoor_db:
+    image: mysql:latest
+    volumes:
+    - ./casdoor_db:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=ri9eq4ji4YEW
+    - MYSQL_DATABASE=casdoor
   casdoor_proxy:
     image: nginx
     volumes:
     - ./nginx:/etc/nginx
     - ./certs:/certs
+    depends_on:
+    - casdoor
     ports:
     - 8080:80
     - 8443:443
